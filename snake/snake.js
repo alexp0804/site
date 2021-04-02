@@ -2,8 +2,6 @@ var canvas_size = 800;
 var cell_size = 20;
 var num_cells = canvas_size / cell_size;
 var cells = [];
-var score = 0;
-var high_score = 0;
 
 window.addEventListener("keydown", function (e) {
     if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
@@ -126,13 +124,6 @@ function move_snake() {
         new_cell.food = false;
         new_cell.draw_cell();
         food = false;
-        score += 1;
-        score_display.html("Score: " + score + "\t\tHigh Score: " + high_score);
-
-        if (score > high_score) {
-            high_score = score;
-            score_display.html("Score: " + score + "\t\tHigh Score: " + high_score);
-        }
     }
 
     if (new_cell.snake) {
@@ -182,21 +173,9 @@ function setup() {
     let reset_button = createButton('RESET');
     reset_button.mousePressed(reset);
 
-
-
     snake = [cells[1][1]];
     cells[1][1].snake = true;
     snake_direction = [0, 1];
-
-    score_display = createP("Score: 0High Score: 0");
-    score_display.parent("score");
-    // score_display.attribute("display", "inline");
-
-    // high_score_display = createP("High Score: 0")
-    // high_score_display.parent("high_score");
-    // high_score_display.attribute("display", "inline");
-
-
 
     frameRate(16);
 }
