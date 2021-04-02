@@ -1,3 +1,4 @@
+
 var canvas_size = 800;
 var cell_size = 20;
 var num_cells = canvas_size / cell_size;
@@ -77,9 +78,7 @@ function reset() {
     s_length = 1;
     food = false;
     game = true;
-    score = 0;
-    score_display.html("Score: 0");
-
+    
     for (let i = 0; i < num_cells; i++) {
         for (let j = 0; j < num_cells; j++) {
             cells[i][j].snake = false;
