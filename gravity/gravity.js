@@ -1,4 +1,4 @@
-var canvasSize = 800;
+var canvas_size = 800;
 var bodies = [];
 var G = 30;
 var stars = []
@@ -6,10 +6,13 @@ var trails = true;
 
 class Body {
     constructor(x, y, mass, radius, slider) {
-        this.x = x;
-        this.y = y;
-        this.vel = [0, 0]; // Velocity in X, Y
-        this.acc = [0, 0]; // Acceleration in X, Y
+        this.r = createVector(x, y);
+//      this.x = x;
+//      this.y = y;
+        this.vel = createVector(0, 0);
+        this.acc = createVector(0, 0);
+//      this.vel = [0, 0]; // Velocity in X, Y
+//      this.acc = [0, 0]; // Acceleration in X, Y
         this.mass = mass;
         this.radius = radius;
         this.mass_slider = slider;
@@ -18,43 +21,38 @@ class Body {
 
     drawBody() {
         fill('#12A400');
-        circle(this.x, this.y, this.radius * 2);
+        circle(this.r.x, this.r.y, this.radius * 2);
     }
 
     move() {
-        this.vel[0] += this.acc[0];
-        this.vel[1] += this.acc[1];
-
+        this.vel.add(this.acc);
         // Handle bounces along the wall
-        if (this.x + this.vel[0] + this.radius / 2 > canvasSize || this.x + this.vel[0] - this.radius / 2 < 0) {
-            this.vel[0] *= -1 / 2;
-            this.acc[0] *= -1;
+        if (this.r.x + this.vel.x + this.radius / 2 > canvas_size || this.r.x + this.vel.x - this.radius / 2 < 0) {
+            this.vel.x *= -1 / 2;
+            this.acc.x *= -1;
         }
-        if (this.y + this.vel[1] + this.radius / 2 > canvasSize || this.y + this.vel[1] - this.radius / 2 < 0) {
-            this.vel[1] *= -1 / 2;
-            this.acc[1] *= -1;
+        if (this.r.y + this.vel.y + this.radius / 2 > canvas_size || this.r.y + this.vel.y - this.radius / 2 < 0) {
+            this.vel.y *= -1 / 2;
+            this.acc.y *= -1;
         }
 
-        this.x += this.vel[0];
-        this.y += this.vel[1];
+        this.r.add(this.vel);
+//        this.x += this.vel.x;
+//        this.y += this.vel.y;
     }
 }
 
 // Force formula: g * m1 * m2 / r^2
 function force(bodyA, bodyB) {
-    let r = dist(bodyA.x, bodyA.y, bodyB.x, bodyB.y);
-    let c = 1;
+    let r = dist(bodyA.r.x, bodyA.r.y, bodyB.r.x, bodyB.r.y);
 
-    // If r is too small the resulting force would be increasingly large. To fix this, shrink the final force.
-    if (r < bodyA.radius + bodyB.radius) {
-        c = 1 / 100;
-    }
-
-    return G * bodyA.mass * bodyB.mass / (r * r) * c;
+    // Using constrain, don't allow forces to blow up (happens if bodies are too close)
+    return constrain(G * bodyA.mass * bodyB.mass / (r * r), -80, 80); 
 }
 
+// Wrapper function for atan2, returns angle between two bodies
 function angle(bodyA, bodyB) {
-    return Math.atan2((bodyB.y - bodyA.y), (bodyB.x - bodyA.x));
+    return Math.atan2((bodyB.r.y - bodyA.r.y), (bodyB.r.x - bodyA.r.x));
 }
 
 function applyForce(bodyA, bodyB) {
@@ -66,15 +64,15 @@ function applyForce(bodyA, bodyB) {
     let angleB = angle(bodyB, bodyA);
 
     // Apply acceleration in the proper direction.
-    bodyA.acc[0] += Math.cos(angleA) * f / bodyA.mass;
-    bodyA.acc[1] += Math.sin(angleA) * f / bodyA.mass;
+    bodyA.acc.x += Math.cos(angleA) * f / bodyA.mass;
+    bodyA.acc.y += Math.sin(angleA) * f / bodyA.mass;
 
-    bodyB.acc[0] += Math.cos(angleB) * f / bodyB.mass;
-    bodyB.acc[1] += Math.sin(angleB) * f / bodyB.mass;
+    bodyB.acc.x += Math.cos(angleB) * f / bodyB.mass;
+    bodyB.acc.y += Math.sin(angleB) * f / bodyB.mass;
 }
 
 function randPoint() {
-    return Math.floor(Math.random() * 401) + 150; // Picks a random point around the middle of the screen.
+    return Math.floor(Math.random() * canvas_size/2) + 150; // Picks a random point around the middle of the screen.
 }
 
 function toggleTrails() {
@@ -85,7 +83,7 @@ function toggleTrails() {
 }
 
 function setup() {
-    var canvas = createCanvas(canvasSize, canvasSize);
+    var canvas = createCanvas(canvas_size, canvas_size);
     canvas.parent("displayCanvas");
 
     bodies = [
@@ -119,7 +117,7 @@ function draw() {
     }
 
     for (let i = 0; i < bodies.length; i++) {
-        bodies[i].points.push(bodies[i].x, bodies[i].y);
+        bodies[i].points.push(bodies[i].r.x, bodies[i].r.y);
 
         // Cut off beginning of trail once it gets too long, to avoid visual clutter and reduce lag.
         if (bodies[i].points.length > 2000) {
@@ -149,8 +147,8 @@ function draw() {
 
     // Reset acceleration.
     for (let i = 0; i < bodies.length; i++) {
-        bodies[i].acc[0] = 0;
-        bodies[i].acc[1] = 0;
+        bodies[i].acc.x = 0;
+        bodies[i].acc.y = 0;
     }
 
     // Apply forces to each planet.
