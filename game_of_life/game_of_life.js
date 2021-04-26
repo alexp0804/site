@@ -7,7 +7,7 @@ let nextCells = [];
 var numCells = 50;
 var canvasSize = 800;
 var cellSize = canvasSize / numCells;
-var previous_cell = [-1, -1];
+var prev_cell = [-1, -1];
 var looping = false;
 
 class Cell {
@@ -28,6 +28,7 @@ class Cell {
   }
 }
 
+// Checks if a given (x, y) is within the board
 function inRange(x, y, range) {
   return (x >= 0 && x < range) && (y >= 0 && y < range);
 }
@@ -36,6 +37,7 @@ function neighborCount(cells, c) {
   var neighborCount = 0;
   var curX, curY;
 
+  // Search 3x3 surrounding cells 
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < 3; j++) {
       curX = i + c.x - 1;
@@ -50,6 +52,7 @@ function neighborCount(cells, c) {
   return neighborCount;
 }
 
+// Returns true if all cells dead, true otherwise
 function boardEmpty(cells) {
   for (var i = 0; i < numCells; i++) {
     for (var j = 0; j < numCells; j++) {
@@ -76,13 +79,13 @@ function start() {
 }
 
 function populate() {
-  let chances = [0, 0, 1];
+  let chances = [0, 0, 1]; // 1/3 chance 
   let alive = 0;
   for (let i = 0; i < numCells; i++) {
     for (let j = 0; j < numCells; j++) {
       cells[i][j].alive = false;
-      alive = random(chances);
-      if (alive) {
+
+      if (random(chances)) {
         cells[i][j].alive = true;
       }
     }
@@ -123,14 +126,15 @@ function draw() {
   background(0);
   var numNeighbors = 0, i, j;
 
-  mouseXCell = Math.floor(mouseX / cellSize);
-  mouseYCell = Math.floor(mouseY / cellSize);
+  // Mouse positions cell
+  mX = Math.floor(mouseX / cellSize);
+  mY = Math.floor(mouseY / cellSize);
 
   if (mouseIsPressed) {
-    if (!(mouseXCell == previous_cell[0] && mouseYCell == previous_cell[1]) && inRange(mouseXCell, mouseYCell, numCells)) {
-      cells[mouseXCell][mouseYCell].alive = !cells[mouseXCell][mouseYCell].alive;
-      previous_cell[0] = mouseXCell;
-      previous_cell[1] = mouseYCell;
+    if (!(mX == prev_cell[0] && mY == prev_cell[1]) && inRange(mX, mY, numCells)) {
+      cells[mX][mY].alive = !cells[mX][mY].alive;
+      prev_cell[0] = mX;
+      prev_cell[1] = mY;
     }
   }
 
