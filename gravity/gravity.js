@@ -7,12 +7,8 @@ var trails = true;
 class Body {
     constructor(x, y, mass, radius, slider) {
         this.r = createVector(x, y);
-//      this.x = x;
-//      this.y = y;
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
-//      this.vel = [0, 0]; // Velocity in X, Y
-//      this.acc = [0, 0]; // Acceleration in X, Y
         this.mass = mass;
         this.radius = radius;
         this.mass_slider = slider;
@@ -37,8 +33,6 @@ class Body {
         }
 
         this.r.add(this.vel);
-//        this.x += this.vel.x;
-//        this.y += this.vel.y;
     }
 }
 
