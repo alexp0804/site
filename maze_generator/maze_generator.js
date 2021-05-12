@@ -103,7 +103,6 @@ function* generate_nextCell() {
 
     for (let i = 0; i < stack.length; i++) {
       circle(stack[i].x * cellSize + cellSize / 2, stack[i].y * cellSize + cellSize / 2, 10);
-      // rect(stack[i].x *cellSize, stack[i].y*cellSize, cellSize);
     }
 
     yield currentCell;
