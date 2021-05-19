@@ -198,3 +198,4 @@ function draw() {
     flock.forEach(bird => bird.update());
     flock.forEach(bird => bird.render());
 }
+
