@@ -25,6 +25,9 @@ body {
     text-align: center;
 }
 
+.links {
+    margin-top: 70px;
+}
 .box {
     animation: 0.2s ease-out 0s 1 slideInFromBelow;    
 
@@ -45,7 +48,7 @@ body {
 }
 
 h1 {
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 a {
@@ -62,7 +65,7 @@ a {
 }
 
 p {
-    margin: 39px 55px 35px 55px;
+    margin: 39px 55px 0px 55px;
 }
 
 .back {
