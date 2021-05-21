@@ -1,5 +1,3 @@
-// Hello!
-
 // Alexander Peterson
 // Implements a visual representation of common search algorithms
 // Using the p5js library and my own sorting functions
@@ -13,7 +11,6 @@ var elements = [];
 var sorting_pointer;
 var sorting = false;
 var selector;
-
 
 function draw_element(val, index) {
     let height = canvas_size * val / num_elements;
@@ -36,7 +33,6 @@ async function bubble() {
             if (elements[j] > elements[j + 1]) {
                 await swap(elements, j, j + 1);
 
-                fill(color('green'));
                 draw_element(elements[j + 1], j + 1);
                 fill(color('black'));
                 draw_element(num_elements, j);
@@ -56,7 +52,6 @@ async function insertion(list) {
             j -= 1;
         }
 
-        fill(color('green'));
         draw_element(elements[j + 1], j + 1);
 
         await sleep(40);
@@ -75,7 +70,6 @@ async function selection(list) {
         }
         swap(list, min, i);
 
-        fill(color('green'));
         draw_element(elements[min], min);
         fill(color('white'));
 
@@ -124,7 +118,6 @@ async function merge_sort(list, lo, hi) {
     // Overwrite the unsorted portion of the array with the newly merged and sorted portion.
     for (let i = lo; i <= hi; i++) {
         await sleep(1);
-        fill(color('green'));
         draw_element(list[i], i);
         list[i] = merged_list[i - lo];
     }
@@ -137,7 +130,6 @@ async function partition(list, lo, hi) {
     var i = lo + 1, j = hi;
 
 
-    fill(color('green'));
     draw_element(list[lo], lo);
     draw_element(list[hi], hi);
 
@@ -150,7 +142,6 @@ async function partition(list, lo, hi) {
         }
 
         if (i <= j) {
-            fill(color('green'));
             draw_element(list[j], j);
             draw_element(list[i], i);
             await swap(list, i, j);
