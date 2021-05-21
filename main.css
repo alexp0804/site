@@ -155,8 +155,10 @@ body {
     max-width: 1100px;
     height: 323px;
     width: 60%;
+    min-height: 120%;
 
     padding-top: 25px;
+    margin-bottom: 100px;
 }
 
 .item {
@@ -165,7 +167,8 @@ body {
     
     height: 320px;
     width: 300px;
-    margin-bottom: 50px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 
     background-color: gainsboro;
     border: 1px solid #cbcbcb;
