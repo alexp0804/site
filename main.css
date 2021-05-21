@@ -102,6 +102,7 @@ body {
     width: 60%;
     max-width: 1200px;
     text-decoration: none;
+    transition-duration: 0.9s;
 }
 
 .link {
@@ -131,13 +132,8 @@ body {
     box-shadow: 2px 2px 15px black;
 }
 
-#title {
-    position: relative;
-    bottom: -8px;
-    left: -5px;
-}
-
 .container a {
+    transition-duration: 0s;
     text-decoration: none;
     color: black;
     font-size: 19px;
@@ -185,7 +181,7 @@ body {
 
 .item:hover , .bar .link:hover{
     transition-duration: 0.9s;
-    box-shadow: 3px 3px 25px rgb(73, 73, 73);
+    box-shadow: 3px 3px 10px rgb(167, 167, 167);
 }
 
 .animated_gif {
@@ -200,3 +196,4 @@ body {
     
     box-shadow: 0 4px 3px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
