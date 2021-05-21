@@ -20,7 +20,7 @@ class Pendulum {
 
     update_pos() {
         this.theta_vel += this.theta_acc;
-        this.theta_vel = constrain(this.theta_vel, -0.8, 0.8);
+        this.theta_vel *= 0.999;
         this.theta += this.theta_vel;
         this.bob.x = this.piv.x + this.l * sin(this.theta);
         this.bob.y = this.piv.y + this.l * cos(this.theta);
