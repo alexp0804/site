@@ -92,7 +92,6 @@ function reset() {
     snake_direction = [0, 1];
 
     loop();
-
 }
 
 function end_game() {
@@ -119,7 +118,7 @@ function move_snake() {
     let new_cell = cells[next_x][next_y];
 
     if (new_cell.food) {
-        s_length += 1;
+        s_length += 2;
         new_cell.food = false;
         new_cell.draw_cell();
         food = false;
