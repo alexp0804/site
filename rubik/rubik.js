@@ -55,6 +55,7 @@ function renderNormals()
                 // The multiplicative scalar 18 is arbitrary, changes how long the vectors are when rendering.
                 stroke(color('yellow')); 
                 strokeWeight(1);
+                fill(0);
                 line(x0, y0, z0, x0 += yellow.x * 18, y0 += yellow.y * 18, z0 += yellow.z * 18);
                 // Point at the end of the vector for visual effect
                 strokeWeight(4);
@@ -89,6 +90,8 @@ function renderNormals()
 function drawFace(norm, size, offsetAmt, col, axis)
 {
     push();
+    // Offset is the xyz location of the center of the face given described by the normal vector 
+    // OffsetAmt is the distance from the center of the cuboid to the center of the face
     let offset = p5.Vector.mult(norm, offsetAmt);
     translate(offset);
 
@@ -116,7 +119,7 @@ function renderFaces()
     strokeWeight(1);
     
     // Size is the length of one side of the cuboid
-    var size = cuboidSize;
+    var size = 30;
     // Offset is the distance from the center of the cuboid to one of it's faces,
     // when the intersection is perpendicular
     var offsetAmt = size/2;
@@ -151,6 +154,30 @@ function renderFaces()
     }
 }
 
+// i, j, k are the cell index to the cube
+function highlightCube(i, j, k)
+{
+    var size = cuboidSize, offsetAmt = size/2;
+    
+    // r is the center of the given cube 
+    let r = createVector(i, j, k);
+    r.mult(size);
+
+    let c = cube[i][j][k];
+
+    push();
+    translate(r);
+    
+    drawFace(c.y, size,  offsetAmt, 'purple', 'X');
+    drawFace(c.y, size, -offsetAmt, 'purple', 'X'); 
+    drawFace(c.g, size,  offsetAmt, 'purple', 'Z'); 
+    drawFace(c.g, size, -offsetAmt, 'purple', 'Z'); 
+    drawFace(c.r, size,  offsetAmt, 'purple', 'Y');
+    drawFace(c.r, size, -offsetAmt, 'purple', 'Y');
+
+    pop();
+}
+
 
 function setup()
 {
@@ -183,5 +210,9 @@ function draw()
     // renderNormals();
     renderFaces();
     
+    // X represents which "length" 
+    // Y represents which "height"
+    // Z represents which "width"
+    // highlightCube(0,0,0);
 }
 
