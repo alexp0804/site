@@ -1,6 +1,6 @@
 
 var canvas_size = 800;
-var num_nodes = 60;
+var num_nodes = 50;
 var node_size = canvas_size / num_nodes;
 
 var nodes = [];
@@ -150,7 +150,7 @@ function start() {
 // Resets all nodes and walls.
 function reset() {
 
-    background(color('gainsboro'));
+    background(color('#999999'));
 
     for (let i = 0; i < num_nodes; i++) {
         for (let j = 0; j < num_nodes; j++) {
@@ -159,7 +159,7 @@ function reset() {
             nodes[i][j].wall = false;
             nodes[i][j].visited = false;
             nodes[i][j].previous = null;
-            nodes[i][j].draw_node(color('lightgrey'));
+            nodes[i][j].draw_node(color('#BBBBBB'));
         }
     }
 
@@ -175,10 +175,10 @@ function setup() {
     var canvas = createCanvas(canvas_size, canvas_size);
     canvas.parent("displayCanvas");
 
-    var startButton = createButton("START");
+    var startButton = createButton("Start");
     startButton.mousePressed(start);
 
-    var resetButton = createButton("RESET");
+    var resetButton = createButton("Reset");
     resetButton.mousePressed(reset);
 
     strokeWeight(0.05);
@@ -188,7 +188,7 @@ function setup() {
 
         for (let j = 0; j < num_nodes; j++) {
             nodes[i][j] = new Node(i, j);
-            nodes[i][j].draw_node(color('lightgrey'));
+            nodes[i][j].draw_node(color('#999999'));
         }
     }
 }
@@ -217,7 +217,7 @@ function draw() {
         for (let j = 0; j < num_nodes; j++) {
             let curr = nodes[i][j];
             if (curr == start_node || curr == end_node) {
-                curr.draw_node(color('green'));
+                curr.draw_node(color('#263859'));
             }
             if (curr.wall) {
                 curr.draw_node(color('black'));
