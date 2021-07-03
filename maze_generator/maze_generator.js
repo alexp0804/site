@@ -125,8 +125,9 @@ function setup() {
   var canvas = createCanvas(canvasSize, canvasSize);
   canvas.parent("displayCanvas");
 
-  var clearButton = createButton("NEW MAZE");
+  var clearButton = createButton("New Maze");
   clearButton.mousePressed(newMaze);
+  clearButton.parent("sheet");
 
   for (var i = 0; i < numCells; i++) {
     cells[i] = [];
@@ -157,7 +158,7 @@ function draw() {
   }
 
   myCell.drawCell();
-  fill(color('green'));
+  fill(color('#17223B'));
   rect(myCell.x * cellSize, myCell.y * cellSize, cellSize);
 
 }

@@ -109,12 +109,15 @@ function setup() {
 
   clearButton = createButton("CLEAR");
   clearButton.mousePressed(reset);
+  clearButton.parent("sheet");
 
   startButton = createButton("START");
   startButton.mousePressed(start);
+  startButton.parent("sheet");
 
   populateButton = createButton("POPULATE");
   populateButton.mousePressed(populate);
+  populateButton.parent("sheet");
 
   populate();
 

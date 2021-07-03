@@ -4,26 +4,25 @@
 <head>
     <title>The Game of Life</title>
     <link rel="stylesheet" href="../indivpage.css">
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
     <script src="game_of_life.js"></script>
 </head>
 
 <body>
-    <h1> Conway's Game of Life </h1>
-    <div id="displayCanvas"></div>
-    <div class="sheet"></div>
-
-    <p class="p1">
-        Conway's Game of Life is a zero-player cellular automaton game, where each cell lives or dies based on its
-        number of alive neighbors.
-    </p>
-    <p class="p2">
-        Click any cell to bring it to life, press the start button to begin the game.
-    </p>
-    <a class="back" href="..">Back</a>
+    <div class="sheet" id="sheet">
+        <h1> Conway's Game of Life </h1>
+        <div id="displayCanvas"></div>
+        <p class="p1">
+            Conway's Game of Life is a zero-player cellular automaton game, where each cell lives or dies based on a
+            certain set
+            of rules.
+        </p>
+        <p class="p2">
+            Click a cell to bring it to life, press the start button to begin the game.
+        </p>
+    </div>
 </body>
 
 </html>

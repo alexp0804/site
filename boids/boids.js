@@ -62,6 +62,7 @@ class Bird {
 
         // If out of bounds, teleport back
         this.bound();
+        this.render();
     }
 
     render() {
@@ -189,13 +190,12 @@ function setup() {
     }
 
     frameRate(60);
-    fill(color('grey'));
-    stroke(color('grey'));
+    fill(color('#BBBBBB'));
+    stroke(color('#BBBBBB'));
 }
 
 function draw() {
-    background(color('gainsboro'));
+    background(color('#131313'));
     flock.forEach(bird => bird.update());
-    flock.forEach(bird => bird.render());
 }
 

@@ -4,22 +4,19 @@
 <head>
     <title>Sudoku Solver</title>
     <link rel="stylesheet" href="../indivpage.css">
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
     <script src="sudoku.js"></script>
 </head>
 
 <body>
-    <h1> Sudoku Solver </h1>
-    <div id="displayCanvas"></div>
-    <div class="sheet"></div>
-
-    <p class="p1">Uses a backtracking algorithm to find a solution to a sudoku puzzle.</p>
-    <p class="p2">Select a puzzle, click start to begin solving.</p>
-    <a class="back" href="..">Back</a>
-
+    <div class="sheet" id="sheet">
+        <h1> Sudoku Solver </h1>
+        <div id="displayCanvas"></div>
+        <p class="p1">Uses a backtracking algorithm to find a solution to a sudoku puzzle.</p>
+        <p class="p2">Select a puzzle, click start to begin solving.</p>
+    </div>
 </body>
 
 </html>

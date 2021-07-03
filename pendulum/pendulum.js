@@ -67,8 +67,9 @@ function setup() {
     var canvas = createCanvas(canvas_size, canvas_size);
     canvas.parent("displayCanvas");
 
-    var reset_button = createButton("RESET");
+    var reset_button = createButton("Reset");
     reset_button.mousePressed(reset);
+    reset_button.parent("sheet");
 
     background(0);
 
@@ -79,7 +80,7 @@ function setup() {
 }
 
 function draw() {
-    background('gainsboro');
+    background(color('#131313'));
     translate(canvas_size / 2, 300);
 
     // Calculate angular acceleration
@@ -91,6 +92,7 @@ function draw() {
     pen_2.update_pos();
 
     // Draw pendulum rods
+    stroke(color("#999999"))
     strokeWeight(5);
     stroke(128);
     line(pen_1.piv.x, pen_1.piv.y, pen_1.bob.x, pen_1.bob.y);
@@ -100,13 +102,13 @@ function draw() {
     points.push(pen_2.bob.x, pen_2.bob.y);
 
     // Draw bob/pivot
-    stroke(color('green'));
-    fill(color('green'));
+    stroke(color('#263859'));
+    fill(color('#263859'));
     circle(pen_1.bob.x, pen_1.bob.y, 8);
     circle(pen_2.bob.x, pen_2.bob.y, 8);
     circle(0, 0, 8);
 
-    stroke(0);
+    stroke(color("#999999"));
     strokeWeight(1);
     noFill();
 

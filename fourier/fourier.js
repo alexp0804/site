@@ -10,23 +10,23 @@ var neg_if_odd = i => (i % 2 == 0) ? 1 : -1;
 
 // Coefficients for the wave
 var c = {
-    'SQUARE': (i) => (4 / ((2 * i + 1) * PI)),
-    'SAWTOOTH': (i) => 2 / (i + 1) * neg_if_odd(i),
-    'TRIANGLE': (i) => (neg_if_odd(i) * 8) / ((PI ** 2) * ((2 * i + 1) ** 2))
+    'Square': (i) => (4 / ((2 * i + 1) * PI)),
+    'Sawtooth': (i) => 2 / (i + 1) * neg_if_odd(i),
+    'Triangle': (i) => (neg_if_odd(i) * 8) / ((PI ** 2) * ((2 * i + 1) ** 2))
 };
 
 // Coefficients for theta
 var c_t = {
-    'SQUARE': (i) => (2 * i + 1),
-    'SAWTOOTH': (i) => (i + 1),
-    'TRIANGLE': (i) => (2 * i + 1)
+    'Square': (i) => (2 * i + 1),
+    'Sawtooth': (i) => (i + 1),
+    'Triangle': (i) => (2 * i + 1)
 };
 
 // These values scale so each wave has the same initial size
 var sc = {
-    'SQUARE': 100,
-    'SAWTOOTH': 63.5,
-    'TRIANGLE': 157
+    'Square': 100,
+    'Sawtooth': 63.5,
+    'Triangle': 157
 };
 
 function setup() {
@@ -34,18 +34,20 @@ function setup() {
     canvas.parent("displayCanvas");
 
     slide = createSlider(1, 50, 25, 1);
+    slide.parent("sheet");
 
     sel = createSelect();
-    sel.option('SQUARE');
-    sel.option('SAWTOOTH');
-    sel.option('TRIANGLE');
+    sel.option('Square');
+    sel.option('Sawtooth');
+    sel.option('Triangle');
+    sel.parent("sheet");
 
     noFill();
     stroke(255);
 }
 
 function draw() {
-    background(color('gainsboro'));
+    background(color('#131313'));
     translate(cSize / 4, cSize / 2);
 
     var x, y;
@@ -65,7 +67,7 @@ function draw() {
         y = radius * sin(t_co(i) * theta);
 
         // Draw circle centered at previous point
-        stroke(0, 70);
+        stroke(color('#BBBBBB'), 70);
         ellipse(x0, y0, radius * 2, radius * 2);
         // Line from previous point to current point, update previous point information 
         line(x0, y0, x0 += x, y0 += y);
@@ -73,11 +75,11 @@ function draw() {
     // Add final point to the wave-form
     wave.unshift([x0, y0]);
 
-    stroke(0, 100);
+    stroke(color('#BBBBBB'), 100);
     line(x0, y0, 0, wave[0][1])
 
     // Draw wave-form
-    stroke(0);
+    stroke(color('#BBBBBB'));
     beginShape();
     for (let i = 0; i < wave.length; i++) {
         vertex(i, wave[i][1]);

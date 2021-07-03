@@ -1,6 +1,5 @@
 // Alexander Peterson
 // Implements a visual representation of common search algorithms
-// Using the p5js library and my own sorting functions
 
 var canvas_size = 800;
 
@@ -34,9 +33,9 @@ async function bubble() {
                 await swap(elements, j, j + 1);
 
                 draw_element(elements[j + 1], j + 1);
-                fill(color('black'));
+                fill(color("#131313"));
                 draw_element(num_elements, j);
-                fill(color('white'));
+                fill(color("#BBBBBB"));
                 draw_element(elements[j], j);
             }
         }
@@ -71,7 +70,7 @@ async function selection(list) {
         swap(list, min, i);
 
         draw_element(elements[min], min);
-        fill(color('white'));
+        fill(color("#BBBBBB"));
 
         await sleep(40);
     }
@@ -129,7 +128,6 @@ async function partition(list, lo, hi) {
     var pivot = list[lo];
     var i = lo + 1, j = hi;
 
-
     draw_element(list[lo], lo);
     draw_element(list[hi], hi);
 
@@ -151,7 +149,6 @@ async function partition(list, lo, hi) {
     }
 
     await swap(list, lo, j);
-
     return i;
 }
 
@@ -191,22 +188,22 @@ function start_sort() {
         randomize(elements);
     }
 
-    if (selector.value().localeCompare('BUBBLE SORT') == 0) {
+    if (selector.value().localeCompare("Bubble Sort") == 0) {
         sorting_pointer = bubble();
     }
 
-    if (selector.value().localeCompare('INSERTION SORT') == 0) {
+    if (selector.value().localeCompare("Insertion Sort") == 0) {
         sorting_pointer = insertion(elements);
     }
 
-    if (selector.value().localeCompare('SELECTION SORT') == 0) {
+    if (selector.value().localeCompare("Selection Sort") == 0) {
         sorting_pointer = selection(elements);
     }
-    if (selector.value().localeCompare('MERGE SORT') == 0) {
+    if (selector.value().localeCompare("Merge Sort") == 0) {
         sorting_pointer = merge_sort(elements, 0, elements.length - 1);
     }
 
-    if (selector.value().localeCompare('QUICK SORT') == 0) {
+    if (selector.value().localeCompare("Quick Sort") == 0) {
         sorting_pointer = quick_sort(elements, 0, elements.length - 1);
     }
 
@@ -219,18 +216,20 @@ function sleep(ms) {
 
 function setup() {
     var canvas = createCanvas(canvas_size, canvas_size);
-    canvas.parent('displayCanvas');
+    canvas.parent("displayCanvas");
 
     strokeWeight(0.3);
 
     selector = createSelect();
-    selector.option('BUBBLE SORT');
-    selector.option('INSERTION SORT');
-    selector.option('SELECTION SORT');
-    selector.option('MERGE SORT');
-    selector.option('QUICK SORT');
+    selector.option("Bubble Sort");
+    selector.option("Insertion Sort");
+    selector.option("Selection Sort");
+    selector.option("Merge Sort");
+    selector.option("Quick Sort");
+    selector.parent("sheet")
 
-    var startButton = createButton('START');
+    var startButton = createButton("Start");
+    startButton.parent("sheet")
     startButton.mousePressed(start_sort);
 
     for (let i = 0; i < num_elements; i++) {
@@ -241,10 +240,10 @@ function setup() {
 }
 
 function draw() {
-    background(0);
+    background(color("#131313"));
 
     for (let i = 0; i < num_elements; i++) {
-        fill(color('white'));
+        fill(color("#BBBBBB"));
         draw_element(elements[i], i);
     }
 

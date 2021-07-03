@@ -177,9 +177,11 @@ function setup() {
 
     var startButton = createButton("Start");
     startButton.mousePressed(start);
+    startButton.parent("sheet");
 
     var resetButton = createButton("Reset");
     resetButton.mousePressed(reset);
+    resetButton.parent("sheet");
 
     strokeWeight(0.05);
 

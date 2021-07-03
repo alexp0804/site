@@ -206,15 +206,19 @@ function setup() {
     canvas.parent("displayCanvas");
 
     my_select = createSelect();
-    my_select.option('PUZZLE #1');
-    my_select.option('PUZZLE #2');
-    my_select.option('PUZZLE #3');
-    my_select.option('PUZZLE #4');
-    my_select.option('PUZZLE #5');
+    my_select.option('Puzzle #1');
+    my_select.option('Puzzle #2');
+    my_select.option('Puzzle #3');
+    my_select.option('Puzzle #4');
+    my_select.option('Puzzle #5');
     my_select.changed(select_puzzle);
 
-    my_start = createButton("START");
+    my_select.parent("sheet");
+
+    my_start = createButton("Start");
     my_start.mousePressed(start_solve);
+
+    my_start.parent("sheet");
 
     textSize(40);
     textAlign(CENTER, CENTER);

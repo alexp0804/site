@@ -1,7 +1,6 @@
 var canvas_size = 800;
 var bodies = [];
 var G = 30;
-var stars = []
 var trails = true;
 
 class Body {
@@ -16,7 +15,7 @@ class Body {
     }
 
     drawBody() {
-        fill('#12A400');
+        fill('#263859');
         circle(this.r.x, this.r.y, this.radius * 2);
     }
 
@@ -41,7 +40,7 @@ function force(bodyA, bodyB) {
     let r = dist(bodyA.r.x, bodyA.r.y, bodyB.r.x, bodyB.r.y);
 
     // Using constrain, don't allow forces to blow up (happens if bodies are too close)
-    return constrain(G * bodyA.mass * bodyB.mass / (r * r), -80, 80); 
+    return constrain(G * bodyA.mass * bodyB.mass / (r * r), -80, 80);
 }
 
 // Wrapper function for atan2, returns angle between two bodies
@@ -66,7 +65,7 @@ function applyForce(bodyA, bodyB) {
 }
 
 function randPoint() {
-    return Math.floor(Math.random() * canvas_size/2) + 150; // Picks a random point around the middle of the screen.
+    return Math.floor(Math.random() * canvas_size / 2) + 150; // Picks a random point around the middle of the screen.
 }
 
 function toggleTrails() {
@@ -86,29 +85,22 @@ function setup() {
         new Body(randPoint(), randPoint(), 10, 11, createSlider(5, 60, 32.5))
     ];
 
-    createP();
+    for (let i = 0; i < bodies.length; i++) {
+        bodies[i].mass_slider.parent("sheet");
+    }
+
+    var linebreak = createP();
+    linebreak.parent("sheet");
 
     var trailsButton = createButton("TOGGLE TRAILS");
     trailsButton.mousePressed(toggleTrails);
-
-    for (let i = 0; i < 50; i++) {
-        let x = random(width);
-        let y = random(height);
-
-        stars.push(createVector(x, y));
-    }
+    trailsButton.parent("sheet");
 
     frameRate(60);
 }
 
 function draw() {
     background(0);
-
-    // Draw stars.
-    for (let i = 0; i < stars.length; i++) {
-        fill(255);
-        circle(stars[i].x, stars[i].y, 2);
-    }
 
     for (let i = 0; i < bodies.length; i++) {
         bodies[i].points.push(bodies[i].r.x, bodies[i].r.y);
@@ -124,7 +116,7 @@ function draw() {
 
     // Draw trails.
     if (trails) {
-        stroke(255);
+        stroke(255, 100);
         noFill();
 
         for (let i = 0; i < bodies.length; i++) {
