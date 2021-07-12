@@ -4,6 +4,7 @@ var cell_size = 20;
 var num_cells = canvas_size / cell_size;
 var cells = [];
 
+// Disable scroll with keys
 window.addEventListener("keydown", function (e) {
     if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
         e.preventDefault();
@@ -34,13 +35,13 @@ class Cell {
             fill('darkgreen');
         }
         else if (this.food) {
-            fill('#DD0F0F');
+            fill(color('#263859'));
         }
 
         else {
             strokeWeight(0.1);
             stroke(255);
-            fill('darkgray');
+            fill(color('#252525'));
         }
 
         rect(this.x * cell_size, this.y * cell_size, cell_size, cell_size, 4);
@@ -59,16 +60,16 @@ function arrays_match(arr1, arr2) {
 }
 
 function keyPressed() {
-    if (keyCode == UP_ARROW && !arrays_match(snake_direction, [0, 1])) {
+    if (keyCode == UP_ARROW || keyCode == 75 && !arrays_match(snake_direction, [0, 1])) {
         snake_direction = [0, -1];
     }
-    if (keyCode == LEFT_ARROW && !arrays_match(snake_direction, [1, 0])) {
+    if (keyCode == LEFT_ARROW || keyCode == 72 && !arrays_match(snake_direction, [1, 0])) {
         snake_direction = [-1, 0];
     }
-    if (keyCode == RIGHT_ARROW && !arrays_match(snake_direction, [-1, 0])) {
+    if (keyCode == RIGHT_ARROW || keyCode == 76 && !arrays_match(snake_direction, [-1, 0])) {
         snake_direction = [1, 0];
     }
-    if (keyCode == DOWN_ARROW && !arrays_match(snake_direction, [0, -1])) {
+    if (keyCode == DOWN_ARROW || keyCode == 74 && !arrays_match(snake_direction, [0, -1])) {
         snake_direction = [0, 1];
     }
 }
@@ -78,7 +79,7 @@ function reset() {
     s_length = 1;
     food = false;
     game = true;
-    
+
     for (let i = 0; i < num_cells; i++) {
         for (let j = 0; j < num_cells; j++) {
             cells[i][j].snake = false;
@@ -158,7 +159,7 @@ function setup() {
     var canvas = createCanvas(canvas_size, canvas_size);
     canvas.parent("displayCanvas");
 
-    background(100)
+    background(color('#131313'))
 
     for (let i = 0; i < num_cells; i++) {
         cells[i] = [];
