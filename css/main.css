@@ -10,6 +10,7 @@ body {
 }
 
 #birds {
+    position: fixed;
     padding: 0;
     z-index: -1;
 }
@@ -30,11 +31,10 @@ body {
 
 .header {
     position: relative;
-    max-width: 1240px;
     text-align: center;
     color: #BBBBBB;
     letter-spacing: 0px;
-    line-height: 30px;
+    line-height: 40px;
     font-size: 48px;
     max-width: 1240px;
     
@@ -99,8 +99,8 @@ body {
     justify-content: space-between;
     align-content: flex-start;
     max-width: 1100px;
-    width: 60%;
     min-height: 90%;
+    padding: 50px;
 }
 
 .item {
