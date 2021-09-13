@@ -1,7 +1,7 @@
 
-var board_length = 9;
-var canvas_size = 700;
-var square_size = canvas_size / board_length;
+var boardLength = 9;
+var canvasSize = 700;
+var squareSize = canvasSize / boardLength;
 var solving = false;
 var begin = false;
 
@@ -15,13 +15,13 @@ var board = [[5, 3, 4, 6, 7, 0, 9, 1, 0],
 [0, 0, 0, 4, 1, 9, 0, 0, 5],
 [0, 0, 0, 0, 8, 0, 0, 7, 9]];
 
-function draw_square(x, y) {
+function drawSquare(x, y) {
     let value = board[y][x];
 
     // Clear square
     fill(255);
     rectMode(CORNER);
-    rect(x * square_size, y * square_size, square_size);
+    rect(x * squareSize, y * squareSize, squareSize);
 
     if (value == 0) {
         return;
@@ -30,12 +30,12 @@ function draw_square(x, y) {
     // Draw number (if non-zero)
     fill(0);
     rectMode(CENTER);
-    text(value.toString(), x * square_size + square_size / 2, y * square_size + square_size / 2 + 2);
+    text(value.toString(), x * squareSize + squareSize / 2, y * squareSize + squareSize / 2 + 2);
 }
 
-function is_valid(x, y, key) {
+function isValid(x, y, key) {
     // Check current row and column
-    for (let i = 0; i < board_length; i++) {
+    for (let i = 0; i < boardLength; i++) {
         if (i != y) {
             if (board[x][i] == key) {
                 return false;
@@ -48,11 +48,11 @@ function is_valid(x, y, key) {
         }
     }
 
-    let sub_x = Math.floor(x / 3), sub_y = Math.floor(y / 3);
+    let subX = Math.floor(x / 3), subY = Math.floor(y / 3);
 
     // Checks the subgrid that the given x,y falls inside.
-    for (let i = sub_x * 3; i < sub_x * 3 + 3; i++) {
-        for (let j = sub_y * 3; j < sub_y * 3 + 3; j++) {
+    for (let i = subX * 3; i < subX * 3 + 3; i++) {
+        for (let j = subY * 3; j < subY * 3 + 3; j++) {
             if (board[i][j] == key && x != i && y != j) {
                 return false;
             }
@@ -63,9 +63,9 @@ function is_valid(x, y, key) {
 }
 
 // Finds the first empty square on the board.
-function next_square() {
-    for (let row = 0; row < board_length; row++) {
-        for (let col = 0; col < board_length; col++) {
+function nextSquare() {
+    for (let row = 0; row < boardLength; row++) {
+        for (let col = 0; col < boardLength; col++) {
             if (board[row][col] == 0) {
                 return [row, col];
             }
@@ -77,8 +77,8 @@ function next_square() {
 
 // Checks if the board is full of numbers.
 function full() {
-    for (let i = 0; i < board_length; i++) {
-        for (let j = 0; j < board_length; j++) {
+    for (let i = 0; i < boardLength; i++) {
+        for (let j = 0; j < boardLength; j++) {
             if (board[i][j] == 0) {
                 return false;
             }
@@ -96,7 +96,7 @@ function sleep(ms) {
 
 async function solve(row, col) {
     // If the current board is invalid, go back and try another one.
-    if (!is_valid(row, col, board[row][col])) {
+    if (!isValid(row, col, board[row][col])) {
         return false;
     }
 
@@ -106,35 +106,35 @@ async function solve(row, col) {
     }
 
     // Finds next non-zero square.
-    let next = next_square();
-    let next_row = next[0], next_col = next[1];
+    let next = nextSquare();
+    let nextRow = next[0], nextCol = next[1];
 
     // Try each possibility and recursively call to the next square.
     for (let i = 1; i < 10; i++) {
-        board[next_row][next_col] = i;
+        board[nextRow][nextCol] = i;
 
         // Artificially slow down the program to make the drawing visible.
         await sleep(1);
 
-        if (await solve(next_row, next_col)) {
+        if (await solve(nextRow, nextCol)) {
             return true;
         }
 
-        board[next_row][next_col] = 0;
+        board[nextRow][nextCol] = 0;
     }
 
     return false;
 }
 
 // Changes the global variable "board" to the given option.
-function select_puzzle() {
+function selectPuzzle() {
     if (solving) {
         return;
     }
 
     // Selector values are in the form of "PUZZLE #N"
     // This piece of code gets N and stores it in num.
-    let num = my_select.value();
+    let num = mySelect.value();
     num = parseInt(num.substr(num.length - 1));
 
     switch (num) {
@@ -197,35 +197,35 @@ function select_puzzle() {
     }
 }
 
-function start_solve() {
+function startSolve() {
     begin = true;
 }
 
 function setup() {
-    var canvas = createCanvas(canvas_size, canvas_size);
+    var canvas = createCanvas(canvasSize, canvasSize);
     canvas.parent("displayCanvas");
 
-    my_select = createSelect();
-    my_select.option('Puzzle #1');
-    my_select.option('Puzzle #2');
-    my_select.option('Puzzle #3');
-    my_select.option('Puzzle #4');
-    my_select.option('Puzzle #5');
-    my_select.changed(select_puzzle);
+    mySelect = createSelect();
+    mySelect.option('Puzzle #1');
+    mySelect.option('Puzzle #2');
+    mySelect.option('Puzzle #3');
+    mySelect.option('Puzzle #4');
+    mySelect.option('Puzzle #5');
+    mySelect.changed(selectPuzzle);
 
-    my_select.parent("sheet");
+    mySelect.parent("sheet");
 
-    my_start = createButton("Start");
-    my_start.mousePressed(start_solve);
+    myStart = createButton("Start");
+    myStart.mousePressed(startSolve);
 
-    my_start.parent("sheet");
+    myStart.parent("sheet");
 
     textSize(40);
     textAlign(CENTER, CENTER);
 
-    for (let row = 0; row < board_length; row++) {
-        for (let col = 0; col < board_length; col++) {
-            draw_square(row, col);
+    for (let row = 0; row < boardLength; row++) {
+        for (let col = 0; col < boardLength; col++) {
+            drawSquare(row, col);
         }
     }
 }
@@ -241,17 +241,17 @@ function draw() {
     }
 
     // Draw board repeatedly
-    for (let row = 0; row < board_length; row++) {
-        for (let col = 0; col < board_length; col++) {
-            draw_square(row, col);
+    for (let row = 0; row < boardLength; row++) {
+        for (let col = 0; col < boardLength; col++) {
+            drawSquare(row, col);
         }
     }
 
     // Draws subgrid lines.
     strokeWeight(4);
     for (let i = 1; i <= 2; i++) {
-        line(square_size * 3 * i, 0, square_size * 3 * i, canvas_size);
-        line(0, square_size * 3 * i, canvas_size, square_size * 3 * i);
+        line(squareSize * 3 * i, 0, squareSize * 3 * i, canvasSize);
+        line(0, squareSize * 3 * i, canvasSize, squareSize * 3 * i);
     }
     strokeWeight(1);
 }

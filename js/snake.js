@@ -1,7 +1,7 @@
 
-var canvas_size = 700;
-var cell_size = 20;
-var num_cells = canvas_size / cell_size;
+var canvasSize = 700;
+var cellSize = 20;
+var numCells = canvasSize / cellSize;
 var cells = [];
 
 // Disable scroll with keys
@@ -12,9 +12,9 @@ window.addEventListener("keydown", function (e) {
 }, false);
 
 var snake = [];
-var snake_direction = [];
-var s_length = 1;
-var next_x = 0, next_y = 0;
+var snakeDirection = [];
+var sLength = 1;
+var nextX = 0, nextY = 0;
 
 var food = false;
 var game = true;
@@ -28,7 +28,7 @@ class Cell {
         this.food = false;
     }
 
-    draw_cell() {
+    drawCell() {
         strokeWeight(0);
 
         if (this.snake) {
@@ -44,12 +44,12 @@ class Cell {
             fill(color('#252525'));
         }
 
-        rect(this.x * cell_size, this.y * cell_size, cell_size, cell_size, 4);
+        rect(this.x * cellSize, this.y * cellSize, cellSize, cellSize, 4);
     }
 }
 
 // Assumes arrays are equal length.
-function arrays_match(arr1, arr2) {
+function arraysMatch(arr1, arr2) {
     for (let i = 0; i < arr1.length; i++) {
         if (arr1[i] != arr2[i]) {
             return false;
@@ -60,140 +60,140 @@ function arrays_match(arr1, arr2) {
 }
 
 function keyPressed() {
-    if (keyCode == UP_ARROW || keyCode == 75 && !arrays_match(snake_direction, [0, 1])) {
-        snake_direction = [0, -1];
+    if (keyCode == UP_ARROW || keyCode == 75 && !arraysMatch(snakeDirection, [0, 1])) {
+        snakeDirection = [0, -1];
     }
-    if (keyCode == LEFT_ARROW || keyCode == 72 && !arrays_match(snake_direction, [1, 0])) {
-        snake_direction = [-1, 0];
+    if (keyCode == LEFT_ARROW || keyCode == 72 && !arraysMatch(snakeDirection, [1, 0])) {
+        snakeDirection = [-1, 0];
     }
-    if (keyCode == RIGHT_ARROW || keyCode == 76 && !arrays_match(snake_direction, [-1, 0])) {
-        snake_direction = [1, 0];
+    if (keyCode == RIGHT_ARROW || keyCode == 76 && !arraysMatch(snakeDirection, [-1, 0])) {
+        snakeDirection = [1, 0];
     }
-    if (keyCode == DOWN_ARROW || keyCode == 74 && !arrays_match(snake_direction, [0, -1])) {
-        snake_direction = [0, 1];
+    if (keyCode == DOWN_ARROW || keyCode == 74 && !arraysMatch(snakeDirection, [0, -1])) {
+        snakeDirection = [0, 1];
     }
 }
 
 function reset() {
     snake = [];
-    s_length = 1;
+    sLength = 1;
     food = false;
     game = true;
 
-    for (let i = 0; i < num_cells; i++) {
-        for (let j = 0; j < num_cells; j++) {
+    for (let i = 0; i < numCells; i++) {
+        for (let j = 0; j < numCells; j++) {
             cells[i][j].snake = false;
             cells[i][j].food = false;
-            cells[i][j].draw_cell();
+            cells[i][j].drawCell();
         }
     }
 
     snake = [cells[1][1]];
     cells[1][1].snake = true;
-    snake_direction = [0, 1];
+    snakeDirection = [0, 1];
 
     loop();
 }
 
-function end_game() {
+function endGame() {
     game = false;
     background(color(0, 0, 0, 180));
     noLoop();
 }
 
 // Find coordinates of the next cell based off the current location of the snake head and the direction of the snake.
-function next_cell() {
-    next_x = snake[snake.length - 1].x + snake_direction[0];
-    next_y = snake[snake.length - 1].y + snake_direction[1];
+function nextCell() {
+    nextX = snake[snake.length - 1].x + snakeDirection[0];
+    nextY = snake[snake.length - 1].y + snakeDirection[1];
 }
 
 // Checks that the next cell is a valid move (not a snake, not out of bounds).
-function check_validity() {
-    if (!(next_x >= 0 && next_x < num_cells && next_y >= 0 && next_y < num_cells)) {
-        end_game();
+function checkValidity() {
+    if (!(nextX >= 0 && nextX < numCells && nextY >= 0 && nextY < numCells)) {
+        endGame();
     }
 }
 
-// Moves the head of the snake to the next cell based off next_cell().
-function move_snake() {
-    let new_cell = cells[next_x][next_y];
+// Moves the head of the snake to the next cell based off nextCell().
+function moveSnake() {
+    let newCell = cells[nextX][nextY];
 
-    if (new_cell.food) {
-        s_length += 2;
-        new_cell.food = false;
-        new_cell.draw_cell();
+    if (newCell.food) {
+        sLength += 2;
+        newCell.food = false;
+        newCell.drawCell();
         food = false;
     }
 
-    if (new_cell.snake) {
-        end_game();
+    if (newCell.snake) {
+        endGame();
         return;
     }
 
-    snake.push(new_cell);
-    new_cell.snake = true;
-    new_cell.draw_cell();
+    snake.push(newCell);
+    newCell.snake = true;
+    newCell.drawCell();
 }
 
-function cut_snake() {
+function cutSnake() {
     snake[0].snake = false;
-    snake[0].draw_cell();
+    snake[0].drawCell();
     snake.shift();
 }
 
-function spawn_food() {
-    let food_x = Math.floor(random(0, num_cells)), food_y = Math.floor(random(0, num_cells));
+function spawnFood() {
+    let foodX = Math.floor(random(0, numCells)), foodY = Math.floor(random(0, numCells));
 
-    while (cells[food_x][food_y].snake) {
-        food_x = Math.floor(random(0, num_cells));
-        food_y = Math.floor(random(0, num_cells));
+    while (cells[foodX][foodY].snake) {
+        foodX = Math.floor(random(0, numCells));
+        foodY = Math.floor(random(0, numCells));
     }
 
-    cells[food_x][food_y].food = true;
-    cells[food_x][food_y].draw_cell();
+    cells[foodX][foodY].food = true;
+    cells[foodX][foodY].drawCell();
 
     food = true;
 }
 
 function setup() {
-    var canvas = createCanvas(canvas_size, canvas_size);
+    var canvas = createCanvas(canvasSize, canvasSize);
     canvas.parent("displayCanvas");
 
     background(color('#131313'))
 
-    for (let i = 0; i < num_cells; i++) {
+    for (let i = 0; i < numCells; i++) {
         cells[i] = [];
-        for (let j = 0; j < num_cells; j++) {
+        for (let j = 0; j < numCells; j++) {
             cells[i].push(new Cell(i, j));
-            cells[i][j].draw_cell();
+            cells[i][j].drawCell();
         }
     }
 
-    let reset_button = createButton('RESET');
-    reset_button.mousePressed(reset);  
-    reset_button.parent("sheet");
+    let resetButton = createButton('RESET');
+    resetButton.mousePressed(reset);  
+    resetButton.parent("sheet");
 
 
     snake = [cells[1][1]];
     cells[1][1].snake = true;
-    snake_direction = [0, 1];
+    snakeDirection = [0, 1];
 
     frameRate(16);
 }
 
 function draw() {
-    next_cell();
-    check_validity();
+    nextCell();
+    checkValidity();
 
     if (game) {
-        move_snake();
+        moveSnake();
 
         if (!food) {
-            spawn_food();
+            spawnFood();
         }
 
-        if (snake.length > s_length) {
-            cut_snake();
+        if (snake.length > sLength) {
+            cutSnake();
         }
     }
 }

@@ -7,7 +7,7 @@ let nextCells = [];
 var numCells = 50;
 var canvasSize = 700;
 var cellSize = canvasSize / numCells;
-var prev_cell = [-1, -1];
+var prevCell = [-1, -1];
 var looping = false;
 
 class Cell {
@@ -133,10 +133,10 @@ function draw() {
   mY = Math.floor(mouseY / cellSize);
 
   if (mouseIsPressed) {
-    if (!(mX == prev_cell[0] && mY == prev_cell[1]) && inRange(mX, mY, numCells)) {
+    if (!(mX == prevCell[0] && mY == prevCell[1]) && inRange(mX, mY, numCells)) {
       cells[mX][mY].alive = !cells[mX][mY].alive;
-      prev_cell[0] = mX;
-      prev_cell[1] = mY;
+      prevCell[0] = mX;
+      prevCell[1] = mY;
     }
   }
 

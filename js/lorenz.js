@@ -1,18 +1,12 @@
 
 var canvasSize = 700;
+var attractor;
+var easyCam;
 
 // Timestep for the differential equations
 var dt = 0.015;
-
-// Variable to keep track of the lorenz attractor
-var attractor;
-
-// Camera variable
-var easyCam;
-
 // Maximum length for the number of points drawn.
 var maxLength = 1500;
-
 // Initial conditions for the set of differential equations
 var sigma = 10, rho = 28, beta = 8/3;
 
@@ -89,4 +83,3 @@ function draw() {
     attractor.step();
     attractor.render();
 }
-

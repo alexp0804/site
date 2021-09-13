@@ -1,21 +1,21 @@
 // Alexander Peterson
 // Implements a visual representation of common search algorithms
 
-var canvas_size = 700;
+var canvasSize = 700;
 
-var num_elements = 100;
-var element_width = canvas_size / num_elements;
+var numElements = 100;
+var elementWidth = canvasSize / numElements;
 var elements = [];
 
-var sorting_pointer;
+var sortingPointer;
 var sorting = false;
 var selector;
 
-function draw_element(val, index) {
-    let height = canvas_size * val / num_elements;
-    let pos = (index) / num_elements * canvas_size;
+function drawElement(val, index) {
+    let height = canvasSize * val / numElements;
+    let pos = (index) / numElements * canvasSize;
 
-    rect(pos, canvas_size, element_width, -height);
+    rect(pos, canvasSize, elementWidth, -height);
 }
 
 async function swap(list, i, j) {
@@ -32,11 +32,11 @@ async function bubble() {
             if (elements[j] > elements[j + 1]) {
                 await swap(elements, j, j + 1);
 
-                draw_element(elements[j + 1], j + 1);
+                drawElement(elements[j + 1], j + 1);
                 fill(color("#131313"));
-                draw_element(num_elements, j);
+                drawElement(numElements, j);
                 fill(color("#BBBBBB"));
-                draw_element(elements[j], j);
+                drawElement(elements[j], j);
             }
         }
     }
@@ -51,7 +51,7 @@ async function insertion(list) {
             j -= 1;
         }
 
-        draw_element(elements[j + 1], j + 1);
+        drawElement(elements[j + 1], j + 1);
 
         await sleep(40);
 
@@ -69,23 +69,23 @@ async function selection(list) {
         }
         swap(list, min, i);
 
-        draw_element(elements[min], min);
+        drawElement(elements[min], min);
         fill(color("#BBBBBB"));
 
         await sleep(40);
     }
 }
 
-async function merge_sort(list, lo, hi) {
+async function mergeSort(list, lo, hi) {
     let mid = Math.floor(lo + (hi - lo) / 2);
-    let merged_list = [];
+    let mergedList = [];
 
     if (lo >= hi) {
         return;
     }
 
-    await merge_sort(list, lo, mid);
-    await merge_sort(list, mid + 1, hi);
+    await mergeSort(list, lo, mid);
+    await mergeSort(list, mid + 1, hi);
 
     // Merge the lists, which should all be sorted.
     // i is the start of the first sorted array, j is the start of the second.
@@ -95,30 +95,30 @@ async function merge_sort(list, lo, hi) {
     // While both sorted portions have elements remaining, add the smaller of the two.
     while (i <= mid && j <= hi) {
         if (list[i] < list[j]) {
-            merged_list.push(list[i]);
+            mergedList.push(list[i]);
             i++;
         }
         else {
-            merged_list.push(list[j]);
+            mergedList.push(list[j]);
             j++;
         }
     }
 
     // At this point, at least one of the sorted portions have merged completely, so add the rest from the other portion.
     while (i <= mid) {
-        merged_list.push(list[i]);
+        mergedList.push(list[i]);
         i++;
     }
     while (j <= hi) {
-        merged_list.push(list[j]);
+        mergedList.push(list[j]);
         j++;
     }
 
     // Overwrite the unsorted portion of the array with the newly merged and sorted portion.
     for (let i = lo; i <= hi; i++) {
         await sleep(1);
-        draw_element(list[i], i);
-        list[i] = merged_list[i - lo];
+        drawElement(list[i], i);
+        list[i] = mergedList[i - lo];
     }
 
     return list.filter(n => n);
@@ -128,8 +128,8 @@ async function partition(list, lo, hi) {
     var pivot = list[lo];
     var i = lo + 1, j = hi;
 
-    draw_element(list[lo], lo);
-    draw_element(list[hi], hi);
+    drawElement(list[lo], lo);
+    drawElement(list[hi], hi);
 
     while (i <= j) {
         while (list[i] < pivot) {
@@ -140,8 +140,8 @@ async function partition(list, lo, hi) {
         }
 
         if (i <= j) {
-            draw_element(list[j], j);
-            draw_element(list[i], i);
+            drawElement(list[j], j);
+            drawElement(list[i], i);
             await swap(list, i, j);
             i++;
             j--;
@@ -152,15 +152,15 @@ async function partition(list, lo, hi) {
     return i;
 }
 
-async function quick_sort(list, lo, hi) {
+async function quickSort(list, lo, hi) {
     if (lo >= hi) {
         return;
     }
 
-    let partition_index = await partition(list, lo, hi);
+    let partitionIndex = await partition(list, lo, hi);
 
-    await quick_sort(list, lo, partition_index - 1);
-    await quick_sort(list, partition_index, hi);
+    await quickSort(list, lo, partitionIndex - 1);
+    await quickSort(list, partitionIndex, hi);
 }
 
 function randomize() {
@@ -179,7 +179,7 @@ function sorted(list) {
     return true;
 }
 
-function start_sort() {
+function startSort() {
     if (sorting) {
         return;
     }
@@ -189,22 +189,22 @@ function start_sort() {
     }
 
     if (selector.value().localeCompare("Bubble Sort") == 0) {
-        sorting_pointer = bubble();
+        sortingPointer = bubble();
     }
 
     if (selector.value().localeCompare("Insertion Sort") == 0) {
-        sorting_pointer = insertion(elements);
+        sortingPointer = insertion(elements);
     }
 
     if (selector.value().localeCompare("Selection Sort") == 0) {
-        sorting_pointer = selection(elements);
+        sortingPointer = selection(elements);
     }
     if (selector.value().localeCompare("Merge Sort") == 0) {
-        sorting_pointer = merge_sort(elements, 0, elements.length - 1);
+        sortingPointer = mergeSort(elements, 0, elements.length - 1);
     }
 
     if (selector.value().localeCompare("Quick Sort") == 0) {
-        sorting_pointer = quick_sort(elements, 0, elements.length - 1);
+        sortingPointer = quickSort(elements, 0, elements.length - 1);
     }
 
     sorting = true;
@@ -215,7 +215,7 @@ function sleep(ms) {
 }
 
 function setup() {
-    var canvas = createCanvas(canvas_size, canvas_size);
+    var canvas = createCanvas(canvasSize, canvasSize);
     canvas.parent("displayCanvas");
 
     strokeWeight(0.3);
@@ -230,9 +230,9 @@ function setup() {
 
     var startButton = createButton("Start");
     startButton.parent("sheet")
-    startButton.mousePressed(start_sort);
+    startButton.mousePressed(startSort);
 
-    for (let i = 0; i < num_elements; i++) {
+    for (let i = 0; i < numElements; i++) {
         elements.push(i + 1);
     }
 
@@ -242,13 +242,13 @@ function setup() {
 function draw() {
     background(color("#131313"));
 
-    for (let i = 0; i < num_elements; i++) {
+    for (let i = 0; i < numElements; i++) {
         fill(color("#BBBBBB"));
-        draw_element(elements[i], i);
+        drawElement(elements[i], i);
     }
 
     if (!sorting) {
-        sorting_pointer;
+        sortingPointer;
     }
 
     if (sorted(elements)) {

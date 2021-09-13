@@ -1,22 +1,22 @@
 // May 11, 2021
 
-var cSize = 700;
+var canvasSize = 700;
 var theta = 0;
 var sel;
 var slide;
 var wave = [];
 
-var neg_if_odd = i => (i % 2 == 0) ? 1 : -1;
+var negIfOdd = i => (i % 2 == 0) ? 1 : -1;
 
 // Coefficients for the wave
 var c = {
     'Square': (i) => (4 / ((2 * i + 1) * PI)),
-    'Sawtooth': (i) => 2 / (i + 1) * neg_if_odd(i),
-    'Triangle': (i) => (neg_if_odd(i) * 8) / ((PI ** 2) * ((2 * i + 1) ** 2))
+    'Sawtooth': (i) => 2 / (i + 1) * negIfOdd(i),
+    'Triangle': (i) => (negIfOdd(i) * 8) / ((PI ** 2) * ((2 * i + 1) ** 2))
 };
 
 // Coefficients for theta
-var c_t = {
+var cT = {
     'Square': (i) => (2 * i + 1),
     'Sawtooth': (i) => (i + 1),
     'Triangle': (i) => (2 * i + 1)
@@ -30,7 +30,7 @@ var sc = {
 };
 
 function setup() {
-    var canvas = createCanvas(cSize, cSize);
+    var canvas = createCanvas(canvasSize, canvasSize);
     canvas.parent("displayCanvas");
 
     slide = createSlider(1, 50, 25, 1);
@@ -48,7 +48,7 @@ function setup() {
 
 function draw() {
     background(color('#131313'));
-    translate(cSize / 4, cSize / 2);
+    translate(canvasSize / 4, canvasSize / 2);
 
     var x, y;
     var x0 = 0, y0 = 0;
@@ -56,15 +56,15 @@ function draw() {
     for (let i = 0; i < slide.value(); i++) {
         // Get coefficients, scale value
         let co = c[sel.value()];
-        let t_co = c_t[sel.value()];
+        let tCo = cT[sel.value()];
         let scl = sc[sel.value()];
 
         // Radius is the coefficient scaled
         let radius = scl * co(i);
 
         // Simple polar to cartesian
-        x = radius * cos(t_co(i) * theta);
-        y = radius * sin(t_co(i) * theta);
+        x = radius * cos(tCo(i) * theta);
+        y = radius * sin(tCo(i) * theta);
 
         // Draw circle centered at previous point
         stroke(color('#BBBBBB'), 70);

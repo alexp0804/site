@@ -1,4 +1,4 @@
-var canvas_size = 700;
+var canvasSize = 700;
 var bodies = [];
 var G = 30;
 var trails = true;
@@ -10,7 +10,7 @@ class Body {
         this.acc = createVector(0, 0);
         this.mass = mass;
         this.radius = radius;
-        this.mass_slider = slider;
+        this.massSlider = slider;
         this.points = [];
     }
 
@@ -22,11 +22,11 @@ class Body {
     move() {
         this.vel.add(this.acc);
         // Handle bounces along the wall
-        if (this.r.x + this.vel.x + this.radius / 2 > canvas_size || this.r.x + this.vel.x - this.radius / 2 < 0) {
+        if (this.r.x + this.vel.x + this.radius / 2 > canvasSize || this.r.x + this.vel.x - this.radius / 2 < 0) {
             this.vel.x *= -1 / 2;
             this.acc.x *= -1;
         }
-        if (this.r.y + this.vel.y + this.radius / 2 > canvas_size || this.r.y + this.vel.y - this.radius / 2 < 0) {
+        if (this.r.y + this.vel.y + this.radius / 2 > canvasSize || this.r.y + this.vel.y - this.radius / 2 < 0) {
             this.vel.y *= -1 / 2;
             this.acc.y *= -1;
         }
@@ -65,7 +65,7 @@ function applyForce(bodyA, bodyB) {
 }
 
 function randPoint() {
-    return Math.floor(Math.random() * canvas_size / 2) + 150; // Picks a random point around the middle of the screen.
+    return Math.floor(Math.random() * canvasSize / 2) + 150; // Picks a random point around the middle of the screen.
 }
 
 function toggleTrails() {
@@ -76,7 +76,7 @@ function toggleTrails() {
 }
 
 function setup() {
-    var canvas = createCanvas(canvas_size, canvas_size);
+    var canvas = createCanvas(canvasSize, canvasSize);
     canvas.parent("displayCanvas");
 
     bodies = [
@@ -86,7 +86,7 @@ function setup() {
     ];
 
     for (let i = 0; i < bodies.length; i++) {
-        bodies[i].mass_slider.parent("sheet");
+        bodies[i].massSlider.parent("sheet");
     }
 
     var linebreak = createP();
@@ -110,7 +110,7 @@ function draw() {
             bodies[i].points.splice(0, 2);
         }
         // Apply slider values.
-        bodies[i].mass = bodies[i].mass_slider.value();
+        bodies[i].mass = bodies[i].massSlider.value();
         bodies[i].radius = bodies[i].mass / 15 + 10; // Range of raidus: 10.33 - 14, depending on mass. 
     }
 

@@ -1,16 +1,16 @@
 
-var canvas_size = 700;
-var num_nodes = 50;
-var node_size = canvas_size / num_nodes;
+var canvasSize = 700;
+var numNodes = 50;
+var nodeSize = canvasSize / numNodes;
 
 var nodes = [];
 
-var previous_wall;
+var prevWall;
 
-var start_node;
-var start_placed = false;
-var end_node;
-var end_placed = false;;
+var startNode;
+var startPlaced = false;
+var endNode;
+var endPlaced = false;;
 
 class Node {
     constructor(x, y) {
@@ -27,20 +27,20 @@ class Node {
         this.previous = null;
     }
 
-    draw_node(color) {
+    drawNode(color) {
         fill(color);
-        rect(this.x * node_size, this.y * node_size, node_size);
+        rect(this.x * nodeSize, this.y * nodeSize, nodeSize);
     }
 }
 
 // Using custom distance function instead of dist() to make comparisons easier.
-function distance(node_a, node_b) {
-    return Math.floor(1000 * Math.sqrt((node_b.x - node_a.x) ** 2 + (node_b.y - node_a.y) ** 2));
+function distance(nodeA, nodeB) {
+    return Math.floor(1000 * Math.sqrt((nodeB.x - nodeA.x) ** 2 + (nodeB.y - nodeA.y) ** 2));
 }
 
 // Tests if a given x, y coordinate is in bounds of the global node grid.
-function in_bounds(x, y) {
-    return (x >= 0 && x < num_nodes) && (y >= 0 && y < num_nodes);
+function inBounds(x, y) {
+    return (x >= 0 && x < numNodes) && (y >= 0 && y < numNodes);
 }
 
 // Used to create delay in asynchronous functions.
@@ -49,15 +49,15 @@ function sleep(ms) {
 }
 
 // Returns a list of surrounding nodes (excluding diagonal neighbors), given a node.
-function find_neighbors(node) {
+function findNeighbors(node) {
     let x = node.x, y = node.y, neighbors = [];
 
     // Add up/down, left/right neighbors.
     for (let i = -1; i <= 1; i += 2) {
-        if (in_bounds(x, y + i) && !nodes[x][y + i].visited && !nodes[x][y + i].wall) {
+        if (inBounds(x, y + i) && !nodes[x][y + i].visited && !nodes[x][y + i].wall) {
             neighbors.push(nodes[x][y + i]);
         }
-        if (in_bounds(x + i, y) && !nodes[x + i][y].visited && !nodes[x + i][y].wall) {
+        if (inBounds(x + i, y) && !nodes[x + i][y].visited && !nodes[x + i][y].wall) {
             neighbors.push(nodes[x + i][y]);
         }
     }
@@ -65,38 +65,38 @@ function find_neighbors(node) {
     return neighbors;
 }
 
-async function a_star(start_node, end_node) {
-    let open_set = [start_node];
-    start_node.gScore = 0;
-    start_node.fScore = distance(start_node, end_node);
+async function aStar(startNode, endNode) {
+    let openSet = [startNode];
+    startNode.gScore = 0;
+    startNode.fScore = distance(startNode, endNode);
 
-    while (open_set.length > 0) {
-        open_set.sort((a, b) => (a.fScore - b.fScore));
+    while (openSet.length > 0) {
+        openSet.sort((a, b) => (a.fScore - b.fScore));
 
-        let current = open_set[0];
-        open_set.shift();
+        let current = openSet[0];
+        openSet.shift();
 
-        let neighbors = find_neighbors(current);
+        let neighbors = findNeighbors(current);
 
-        if (current == end_node) {
+        if (current == endNode) {
             return;
         }
 
         for (let i = 0; i < neighbors.length; i++) {
-            let test_gScore = current.gScore + distance(current, neighbors[i]);
+            let testGScore = current.gScore + distance(current, neighbors[i]);
 
-            if (test_gScore < neighbors[i].gScore) {
+            if (testGScore < neighbors[i].gScore) {
                 let n = neighbors[i];
 
                 await sleep(0.5);
-                n.draw_node(color('darkgrey'));
+                n.drawNode(color('darkgrey'));
 
                 n.previous = current;
-                n.gScore = test_gScore;
-                n.fScore = n.gScore + distance(n, end_node);
+                n.gScore = testGScore;
+                n.fScore = n.gScore + distance(n, endNode);
 
-                if (!open_set.includes(n)) {
-                    open_set.push(n);
+                if (!openSet.includes(n)) {
+                    openSet.push(n);
                 }
             }
         }
@@ -104,11 +104,11 @@ async function a_star(start_node, end_node) {
 }
 
 // Places the start node. Returns if placement successful.
-function place_start() {
-    let x = Math.floor(mouseX / node_size), y = Math.floor(mouseY / node_size);
+function placeStart() {
+    let x = Math.floor(mouseX / nodeSize), y = Math.floor(mouseY / nodeSize);
 
-    if (in_bounds(x, y)) {
-        start_node = nodes[x][y];
+    if (inBounds(x, y)) {
+        startNode = nodes[x][y];
         return true;
     }
 
@@ -116,12 +116,12 @@ function place_start() {
 }
 
 // Places the end node. Returns if placement successful.
-function place_end() {
-    let x = Math.floor(mouseX / node_size), y = Math.floor(mouseY / node_size);
+function placeEnd() {
+    let x = Math.floor(mouseX / nodeSize), y = Math.floor(mouseY / nodeSize);
 
     // Only place the end node if it's not in the same location as the start node.
-    if (in_bounds(x, y) && nodes[x][y] != start_node) {
-        end_node = nodes[x][y];
+    if (inBounds(x, y) && nodes[x][y] != startNode) {
+        endNode = nodes[x][y];
         return true;
     }
 
@@ -129,21 +129,21 @@ function place_end() {
 }
 
 // Places wall node on mouse location.
-function place_wall() {
-    let x = Math.floor(mouseX / node_size), y = Math.floor(mouseY / node_size);
+function placeWall() {
+    let x = Math.floor(mouseX / nodeSize), y = Math.floor(mouseY / nodeSize);
 
     // Only place wall if its within bounds, and not a start or end node. 
     // Also prevents from changing the wall that was just changed, to avoid flickering.
-    if (in_bounds(x, y) && nodes[x][y] != previous_wall && nodes[x][y] != start_node && nodes[x][y] != end_node) {
+    if (inBounds(x, y) && nodes[x][y] != prevWall && nodes[x][y] != startNode && nodes[x][y] != endNode) {
         nodes[x][y].wall = true;
-        previous_wall = nodes[x][y];
+        prevWall = nodes[x][y];
     }
 }
 
 // Calls A* once both start and end nodes are placed.
 function start() {
-    if (start_placed && end_placed) {
-        a_star(start_node, end_node);
+    if (startPlaced && endPlaced) {
+        aStar(startNode, endNode);
     }
 }
 
@@ -152,27 +152,27 @@ function reset() {
 
     background(color('#999999'));
 
-    for (let i = 0; i < num_nodes; i++) {
-        for (let j = 0; j < num_nodes; j++) {
+    for (let i = 0; i < numNodes; i++) {
+        for (let j = 0; j < numNodes; j++) {
             nodes[i][j].fScore = 0
             nodes[i][j].gScore = Infinity;
             nodes[i][j].wall = false;
             nodes[i][j].visited = false;
             nodes[i][j].previous = null;
-            nodes[i][j].draw_node(color('#BBBBBB'));
+            nodes[i][j].drawNode(color('#BBBBBB'));
         }
     }
 
-    start_node = null;
-    start_placed = false
-    end_node = null;
-    end_placed = false;
+    startNode = null;
+    startPlaced = false
+    endNode = null;
+    endPlaced = false;
 
 
 }
 
 function setup() {
-    var canvas = createCanvas(canvas_size, canvas_size);
+    var canvas = createCanvas(canvasSize, canvasSize);
     canvas.parent("displayCanvas");
 
     var startButton = createButton("Start");
@@ -185,44 +185,44 @@ function setup() {
 
     strokeWeight(0.05);
 
-    for (let i = 0; i < num_nodes; i++) {
+    for (let i = 0; i < numNodes; i++) {
         nodes.push([]);
 
-        for (let j = 0; j < num_nodes; j++) {
+        for (let j = 0; j < numNodes; j++) {
             nodes[i][j] = new Node(i, j);
-            nodes[i][j].draw_node(color('#999999'));
+            nodes[i][j].drawNode(color('#999999'));
         }
     }
 }
 
 function draw() {
     // Logic for node/wall placement.
-    if (!start_placed && mouseIsPressed) {
-        start_placed = place_start();;
+    if (!startPlaced && mouseIsPressed) {
+        startPlaced = placeStart();;
     }
-    else if (start_placed && !end_placed && mouseIsPressed) {
-        end_placed = place_end();;
+    else if (startPlaced && !endPlaced && mouseIsPressed) {
+        endPlaced = placeEnd();;
     }
-    else if (start_placed && end_placed && mouseIsPressed) {
-        place_wall();
+    else if (startPlaced && endPlaced && mouseIsPressed) {
+        placeWall();
     }
 
     // Test if the end node has a path linked behind it. If it does, the algorithm has finished, so draw the path.
-    let p = end_node;
+    let p = endNode;
     while (p && p.previous) {
         p = p.previous;
-        p.draw_node(color('grey'));
+        p.drawNode(color('grey'));
     }
 
     // Draw all nodes.
-    for (let i = 0; i < num_nodes; i++) {
-        for (let j = 0; j < num_nodes; j++) {
+    for (let i = 0; i < numNodes; i++) {
+        for (let j = 0; j < numNodes; j++) {
             let curr = nodes[i][j];
-            if (curr == start_node || curr == end_node) {
-                curr.draw_node(color('#263859'));
+            if (curr == startNode || curr == endNode) {
+                curr.drawNode(color('#263859'));
             }
             if (curr.wall) {
-                curr.draw_node(color('black'));
+                curr.drawNode(color('black'));
             }
         }
     }
