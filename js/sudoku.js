@@ -1,6 +1,6 @@
 
 var board_length = 9;
-var canvas_size = 800;
+var canvas_size = 700;
 var square_size = canvas_size / board_length;
 var solving = false;
 var begin = false;

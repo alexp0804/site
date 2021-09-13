@@ -1,5 +1,5 @@
 
-var canvas_size = 800;
+var canvas_size = 700;
 var cell_size = 20;
 var num_cells = canvas_size / cell_size;
 var cells = [];
@@ -170,7 +170,9 @@ function setup() {
     }
 
     let reset_button = createButton('RESET');
-    reset_button.mousePressed(reset);
+    reset_button.mousePressed(reset);  
+    reset_button.parent("sheet");
+
 
     snake = [cells[1][1]];
     cells[1][1].snake = true;

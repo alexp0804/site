@@ -6,7 +6,7 @@
 // as described by Conrad Parker in his blog:
 // http://www.kfish.org/~conrad/boids/pseudocode.html
 
-var canvasSize = 800;
+var canvasSize = 700;
 var flockSize = 240;
 var flock = [];
 

@@ -1,4 +1,4 @@
-var canvas_size = 800;
+var canvas_size = 700;
 var bodies = [];
 var G = 30;
 var trails = true;
@@ -100,7 +100,7 @@ function setup() {
 }
 
 function draw() {
-    background(0);
+    background(color('#131313'));
 
     for (let i = 0; i < bodies.length; i++) {
         bodies[i].points.push(bodies[i].r.x, bodies[i].r.y);

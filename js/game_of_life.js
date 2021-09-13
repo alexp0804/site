@@ -5,7 +5,7 @@
 let cells = [];
 let nextCells = [];
 var numCells = 50;
-var canvasSize = 800;
+var canvasSize = 700;
 var cellSize = canvasSize / numCells;
 var prev_cell = [-1, -1];
 var looping = false;
@@ -22,7 +22,7 @@ class Cell {
       fill(255);
     }
     else {
-      fill(0);
+      fill(color('#131313'));
     }
     rect(this.x * cellSize, this.y * cellSize, cellSize, cellSize);
   }
@@ -93,7 +93,6 @@ function populate() {
 }
 
 function setup() {
-  let alive = 1;
   for (var i = 0; i < numCells; i++) {
     cells[i] = [];
     nextCells[i] = [];
@@ -121,12 +120,12 @@ function setup() {
 
   populate();
 
-  background(0);
+  background(color('#131313'));
   frameRate(18);
 }
 
 function draw() {
-  background(0);
+  background(color('#131313'));
   var numNeighbors = 0, i, j;
 
   // Mouse positions cell

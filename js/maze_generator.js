@@ -1,5 +1,5 @@
 
-var canvasSize = 800;
+var canvasSize = 700;
 var numCells = 30;
 var cellSize = canvasSize / numCells;
 var cells = [];

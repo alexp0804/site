@@ -1,7 +1,7 @@
 // Alexander Peterson
 // Implements a visual representation of common search algorithms
 
-var canvas_size = 800;
+var canvas_size = 700;
 
 var num_elements = 100;
 var element_width = canvas_size / num_elements;

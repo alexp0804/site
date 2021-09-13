@@ -1,5 +1,5 @@
 
-var canvas_size = 800;
+var canvas_size = 700;
 var pen_1;
 var pen_2;
 var points = [];

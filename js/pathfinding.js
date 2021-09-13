@@ -1,5 +1,5 @@
 
-var canvas_size = 800;
+var canvas_size = 700;
 var num_nodes = 50;
 var node_size = canvas_size / num_nodes;
 

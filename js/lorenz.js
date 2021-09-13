@@ -1,5 +1,5 @@
 
-var canvasSize = 800;
+var canvasSize = 700;
 
 // Timestep for the differential equations
 var dt = 0.015;
@@ -84,7 +84,7 @@ function setup() {
 
 function draw() {
     scale(6);
-    background(0);
+    background(color('#131313'));
     translate(0, 0, -30);
     attractor.step();
     attractor.render();

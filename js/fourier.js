@@ -1,6 +1,6 @@
 // May 11, 2021
 
-var cSize = 800;
+var cSize = 700;
 var theta = 0;
 var sel;
 var slide;
